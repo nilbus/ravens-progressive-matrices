@@ -13,6 +13,7 @@
 
 # Install Numpy and uncomment this line to access matrix operations.
 import numpy as np
+from Rule import Rule
 
 class Agent:
     # The default constructor for your Agent. Make sure to execute any
@@ -67,12 +68,29 @@ class Agent:
     # Map figure names to Figure objects
     # @return ((Figure1, Figure2), (Figure1, Figure3), ...)
     def collect_related_figures(self, figures, problem_relationships):
-        relationship_mapper = lambda relationship: tuple([figures[relationship[i]] for i in (range(len(relationship)))]
+        relationship_mapper = lambda relationship: \
+                tuple([figures[relationship[i]] for i in (range(len(relationship)))])
         return map(relationship_mapper, problem_relationships)
 
     # @return a dictionary of (Figure1, Figure2) => [Rule, ...]
     def detect_rules(self, related_figures, rule_count_limit=1):
-        pass
+        self.curret_rule_count_limit = rule_count_limit
+        rule_mapper = lambda relationship: \
+                self.detect_relationship_rules(relationship, rule_count_limit)
+        relationships_rules = map(rule_mapper, related_figures)
+        return dict(zip(related_figures, relationships_rules))
+
+    def detect_relationship_rules(self, relationship, rule_count_limit=1):
+        if len(relationship) == 2:
+            return self.possible_binary_transformations(relationship, rule_count_limit)
+        else:
+            raise ValueError('Relationships of size != 2 are unimplemented')
+
+    # @return a list of Rule objects, no longer than rule_count_limit
+    def possible_binary_transformations(self, relationship, rule_count_limit=1):
+        extract_objects = lambda figure: figure.objects
+        (before, after) = map(extract_objects, relationship)
+        return [Rule.identity()] # TODO
 
     # @return an array of positive probabilities that sum to 1.0
     def guess_probabilities(self, transformation_rules):
