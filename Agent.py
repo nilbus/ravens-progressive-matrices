@@ -45,15 +45,23 @@ class Agent:
     #
     # Make sure to return your answer *as a python list* at the end of Solve().
     # Returning your answer as a string may cause your program to crash.
-    def Solve(self,problem):
+    def Solve(self, problem):
+        figures = problem.figures
+        problem_relationships = self.problem_type_relationships(problem.problemType)
+        related_figures = self.group_related_figures(figures, problem_relationships)
+        transformation_rules = self.detect_rules(related_figures)
+        answer_probabilities = self.guess_probabilities(transformation_rules)
+        return answer_probabilities
 
-        ## code suggested by Ryan Peach @115 + slight editing
-        ## feel free to use
-        ## Where a is the input list
-        #t = float(sum(a))
-        #out = [x/t for x in a]
+    def problem_type_relationships(self, problem_type):
+        pass
 
-        ## useful for debugging
-        #print(problem.checkAnswer([.05,.1,.11,.12,.13,.14,.15,.2]))
+    def group_related_figures(self, figures, problem_relationships):
+        pass
 
-        return [1./6,1./6,1./6,1./6,1./6,1./6]
+    def detect_rules(self, related_figures, rule_count_limit=1):
+        pass
+
+    def guess_probabilities(self, transformation_rules):
+        pass
+
