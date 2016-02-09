@@ -48,7 +48,7 @@ class Agent:
     def Solve(self, problem):
         figures = problem.figures
         problem_relationships = self.problem_type_relationships(problem.problemType)
-        related_figures = self.group_related_figures(figures, problem_relationships)
+        related_figures = self.collect_related_figures(figures, problem_relationships)
         transformation_rules = self.detect_rules(related_figures)
         answer_probabilities = self.guess_probabilities(transformation_rules)
         return answer_probabilities
@@ -66,8 +66,9 @@ class Agent:
 
     # Map figure names to Figure objects
     # @return ((Figure1, Figure2), (Figure1, Figure3), ...)
-    def group_related_figures(self, figures, problem_relationships):
-        pass
+    def collect_related_figures(self, figures, problem_relationships):
+        relationship_mapper = lambda relationship: tuple([figures[relationship[i]] for i in (range(len(relationship)))]
+        return map(relationship_mapper, problem_relationships)
 
     # @return a dictionary of (Figure1, Figure2) => [Rule, ...]
     def detect_rules(self, related_figures, rule_count_limit=1):
