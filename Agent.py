@@ -54,7 +54,15 @@ class Agent:
         return answer_probabilities
 
     def problem_type_relationships(self, problem_type):
-        pass
+        if problem_type == '2x2':
+            return (
+                ('A', 'B'), ('A', 'C'),
+                ('B', '1'), ('C', '1'),
+                ('B', '2'), ('C', '2'),
+                ('B', '3'), ('C', '3')
+            )
+        else:
+            raise ValueError('Unimplemented problem type: %s' % problem_type)
 
     def group_related_figures(self, figures, problem_relationships):
         pass
