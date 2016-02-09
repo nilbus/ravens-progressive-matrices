@@ -50,8 +50,8 @@ def main():
                                                                     # Note that if your agent makes use of RavensProblem.check to check its answer, the answer passed to check() will be used.
                                                                     # Your agent cannot change its answer once it has checked its answer.
                 end = time.time()
-                timeUsed = (end - start)*1000             
-                
+                timeUsed = (end - start)*1000
+
                 correct_comfidence = 0
                 if type(problem.givenAnswer) is list:
                     answer = problem.givenAnswer
@@ -59,7 +59,7 @@ def main():
                         answer = [max(i,0) for i in answer]
                         if sum(answer) > 1:
                             sum_answer = float(sum(answer))
-                            answer = [i/sum_answer for i in answer] 
+                            answer = [i/sum_answer for i in answer]
                         correct_comfidence = answer[problem.correctAnswer-1]
                 sum_correct_comfidence += correct_comfidence
                 result=problem.name + "," + str(correct_comfidence) + "," + str(timeUsed)
