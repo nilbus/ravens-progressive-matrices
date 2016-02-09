@@ -10,6 +10,8 @@ import sys
 from Agent import Agent
 from ProblemSet import ProblemSet
 import numpy as np
+import traceback
+import time
 
 # The main driver file for Project2. You may edit this file to change which
 # problems your Agent addresses while debugging and designing, but you should
@@ -36,34 +38,37 @@ def main():
                                                 # Note that each run of the program will overwrite the previous results.
                                                 # Do not write anything else to ProblemResults.txt during execution of the program.
     setResults=open("SetResults.csv","w")       # Set-level summaries will be written to SetResults.csv.
-    results.write("Problem,Correct Confidence\n")
+    results.write("Problem,Correct Confidence,Time\n")
     setResults.write("Set,Sum Correct Confidence\n")
     for set in sets:
         sum_correct_comfidence = 0
         for problem in set.problems:   # Your agent will solve one problem at a time.
             try:
+                start = time.time()
                 problem.setAnswerReceived(agent.Solve(problem))     # The problem will be passed to your agent as a RavensProblem object as a parameter to the Solve method
                                                                     # Your agent should return its answer at the conclusion of the execution of Solve.
                                                                     # Note that if your agent makes use of RavensProblem.check to check its answer, the answer passed to check() will be used.
                                                                     # Your agent cannot change its answer once it has checked its answer.
-             
+                end = time.time()
+                timeUsed = (end - start)*1000             
                 
                 correct_comfidence = 0
                 if type(problem.givenAnswer) is list:
                     answer = problem.givenAnswer
                     if len(answer) >= problem.correctAnswer:
+                        answer = [max(i,0) for i in answer]
                         if sum(answer) > 1:
                             sum_answer = float(sum(answer))
-                            answer = [i/sum_answer for i in answer]            
+                            answer = [i/sum_answer for i in answer] 
                         correct_comfidence = answer[problem.correctAnswer-1]
                 sum_correct_comfidence += correct_comfidence
-                result=problem.name + "," + str(correct_comfidence)
+                result=problem.name + "," + str(correct_comfidence) + "," + str(timeUsed)
 
                 results.write("%s\n" % result)
             except:
                print("Error encountered in " + problem.name + ":")
-               print(sys.exc_info()[0])
-               result=problem.name + "," + str(problem.givenAnswer) + ",Error,"
+               print(traceback.format_exc())
+               result=problem.name + ",Error, "
                results.write("%s\n" % result)
         setResult=set.name + "," + str(sum_correct_comfidence)
         setResults.write("%s\n" % setResult)

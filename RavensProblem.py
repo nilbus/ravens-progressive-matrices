@@ -91,9 +91,9 @@ class RavensProblem:
     #
     # Your agent does not need to use this method.
     def setAnswerReceived(self, givenAnswer):
-        givenAnswer = list(givenAnswer)
         if not self.answerReceived:
             self.answerReceived=True
+            givenAnswer = list(givenAnswer)
             self.givenAnswer=givenAnswer
 
     # Returns whether your Agent's answer is the correct answer. Your agent

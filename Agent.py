@@ -12,7 +12,7 @@
 #from PIL import Image
 
 # Install Numpy and uncomment this line to access matrix operations.
-#import numpy as np
+import numpy as np
 
 class Agent:
     # The default constructor for your Agent. Make sure to execute any
@@ -53,4 +53,7 @@ class Agent:
         #t = float(sum(a))
         #out = [x/t for x in a]
     
+        ## useful for debugging
+        #print(problem.checkAnswer([.05,.1,.11,.12,.13,.14,.15,.2]))
+        
         return [.05,.1,.11,.12,.13,.14,.15,.2]
