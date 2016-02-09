@@ -64,12 +64,16 @@ class Agent:
         else:
             raise ValueError('Unimplemented problem type: %s' % problem_type)
 
+    # Map figure names to Figure objects
+    # @return ((Figure1, Figure2), (Figure1, Figure3), ...)
     def group_related_figures(self, figures, problem_relationships):
         pass
 
+    # @return a dictionary of (Figure1, Figure2) => [Rule, ...]
     def detect_rules(self, related_figures, rule_count_limit=1):
         pass
 
+    # @return an array of positive probabilities that sum to 1.0
     def guess_probabilities(self, transformation_rules):
         pass
 
