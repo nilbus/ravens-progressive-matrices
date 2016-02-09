@@ -26,7 +26,7 @@ class Agent:
     # The primary method for solving incoming Raven's Progressive Matrices.
     # For each problem, your Agent's Solve() method will be called. At the
     # conclusion of Solve(), your Agent should return a list representing its
-    # confidence on each of the answers to the question: for example 
+    # confidence on each of the answers to the question: for example
     # [.1,.1,.1,.1,.5,.1] for 6 answer problems or [.3,.2,.1,.1,0,0,.2,.1] for 8 answer problems.
     #
     # In addition to returning your answer at the end of the method, your Agent
@@ -46,14 +46,14 @@ class Agent:
     # Make sure to return your answer *as a python list* at the end of Solve().
     # Returning your answer as a string may cause your program to crash.
     def Solve(self,problem):
-    
+
         ## code suggested by Ryan Peach @115 + slight editing
         ## feel free to use
         ## Where a is the input list
         #t = float(sum(a))
         #out = [x/t for x in a]
-    
+
         ## useful for debugging
         #print(problem.checkAnswer([.05,.1,.11,.12,.13,.14,.15,.2]))
-        
+
         return [.05,.1,.11,.12,.13,.14,.15,.2]
