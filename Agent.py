@@ -56,4 +56,4 @@ class Agent:
         ## useful for debugging
         #print(problem.checkAnswer([.05,.1,.11,.12,.13,.14,.15,.2]))
 
-        return [.05,.1,.11,.12,.13,.14,.15,.2]
+        return [1./6,1./6,1./6,1./6,1./6,1./6]
