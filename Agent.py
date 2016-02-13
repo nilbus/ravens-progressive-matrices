@@ -55,6 +55,7 @@ class Agent:
         related_figures = self.collect_related_figures(figures, problem_relationships)
         transformation_rules = self.detect_rules(related_figures)
         answer_probabilities = self.guess_probabilities(transformation_rules)
+        print answer_probabilities
         return answer_probabilities
 
     def problem_type_relationships(self):
