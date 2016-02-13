@@ -55,15 +55,17 @@ class Agent:
         answer_probabilities = self.guess_probabilities(transformation_rules)
         return answer_probabilities
 
-    # Each inner tuple represents a set of figures that represent some relationship.
-    # These are organized into groups of Given and Potential Answer sets.
-    # Each group of Given + Potential Answer relationships potentially share common
-    # rules, along which we'll call a rule group.
-    # Summary of the 3 layers:
-    # 1. Rule group: items share rules
-    # 2. 2 items contain Given and Potential Answers, respectively
-    # 3. Figure names are part of a sequence
     def problem_type_relationships(self):
+        '''
+        Each inner tuple represents a set of figures that represent some relationship.
+        These are organized into groups of Given and Potential Answer sets.
+        Each group of Given + Potential Answer relationships potentially share common
+        rules, along which we'll call a rule group.
+        Summary of the 3 layers:
+        1. Rule group: items share rules
+        2. 2 items contain Given and Potential Answers, respectively
+        3. Figure names are part of a sequence
+        '''
         if self.problem_type == '2x2':
             return (
                 (
@@ -77,15 +79,19 @@ class Agent:
         else:
             raise ValueError('Unimplemented problem type: %s' % self.problem_type)
 
-    # Map figure names to Figure objects
-    # @return ((Figure1, Figure2), (Figure1, Figure3), ...)
     def collect_related_figures(self, figures, problem_relationships):
+        '''
+        Map figure names to Figure objects
+        @return ((Figure1, Figure2), (Figure1, Figure3), ...)
+        '''
         relationship_mapper = lambda relationship: \
                 tuple([figures[relationship[i]] for i in (range(len(relationship)))])
         return map(relationship_mapper, problem_relationships)
 
-    # @return a dictionary of (Figure1, Figure2) => [Rule, ...]
     def detect_rules(self, related_figures, rule_count_limit=1):
+        '''
+        @return a dictionary of (Figure1, Figure2) => [Rule, ...]
+        '''
         self.curret_rule_count_limit = rule_count_limit
         rule_mapper = lambda relationship: \
                 self.detect_relationship_rules(relationship, rule_count_limit)
@@ -98,14 +104,18 @@ class Agent:
         else:
             raise ValueError('Relationships of size != 2 are unimplemented')
 
-    # @return a list of Rule objects, no longer than rule_count_limit
     def possible_binary_transformations(self, relationship, rule_count_limit=1):
+        '''
+        @return a list of Rule objects, no longer than rule_count_limit
+        '''
         extract_objects = lambda figure: figure.objects
         (before, after) = map(extract_objects, relationship)
         return [Rule.identity()] # TODO
 
-    # @return an array of positive probabilities that sum to 1.0
     def guess_probabilities(self, transformation_rules_with_figure_keys):
+        '''
+        @return an array of positive probabilities that sum to 1.0
+        '''
         transformation_rules = self.rekey_figure_keys_as_names(transformation_rules_with_figure_keys)
         rule_group_answer_correlation_scores = \
             [self.rule_group_answer_correlations(rule_group, transformation_rules) \
@@ -113,14 +123,18 @@ class Agent:
         answer_relationship_scores = self.combine_rule_group_answer_scores(rule_group_answer_correlation_scores)
         return normalize(answer_relationship_scores)
 
-    # For each key in the given dict, map the Figure to Figure.name
     def rekey_figure_keys_as_names(self, dict_with_figure_tuple_keys):
+        '''
+        For each key in the given dict, map the Figure to Figure.name
+        '''
         return {tuple(map(lambda figure: figure.name, figures)) : rules \
                 for figures, rules in dict_with_figure_tuple_keys.iteritems()}
 
-    # @return a list with one entry per rule group, where each entry is a list
-    # containing correlation scores for each answer.
     def rule_group_answer_correlations(self, rule_group, transformation_rules):
+        '''
+        @return a list with one entry per rule group, where each entry is a list
+        containing correlation scores for each answer.
+        '''
         given_sequence_names  = rule_group[0]
         answer_sequence_names = rule_group[1]
         given_sequence_rules  = [transformation_rules[sequence] for sequence in given_sequence_names]
@@ -129,10 +143,12 @@ class Agent:
                 for answer_sequence_rule in answer_sequence_rules]
         return answer_correlations
 
-    # @param given_rules list (of size n ??) of lists of alternate # rules
-    # @param proposed_answer_rules list (of size n answers) of lists of alternate # rules
-    # @return a correlation score for the given_sequence_rules with the proposed_answer_rules
     def score_sequence_correlation(self, given_rules, proposed_answer_rules):
+        '''
+        @param given_rules list (of size n ??) of lists of alternate # rules
+        @param proposed_answer_rules list (of size n answers) of lists of alternate # rules
+        @return a correlation score for the given_sequence_rules with the proposed_answer_rules
+        '''
         # TODO: Multiple alternate rules come in, and this always chooses the first. Try different combinations.
         first = lambda x: x[0]
         given_rules           = map(first, given_rules)
@@ -141,11 +157,13 @@ class Agent:
         return max(alternate_rule_scores)
 
 
-    # Add scores from each relationship. It will be common, especially for 3x3
-    # matrices, to have problems where some relationships have no rule. Adding scores
-    # will cause those relationships to be ignored.
-    # @return a list of combined scores for each answer
     def combine_rule_group_answer_scores(self, rule_group_answer_correlations):
+        '''
+        Add scores from each relationship. It will be common, especially for 3x3
+        matrices, to have problems where some relationships have no rule. Adding scores
+        will cause those relationships to be ignored.
+        @return a list of combined scores for each answer
+        '''
         return np.sum(rule_group_answer_correlations, axis=0)
 
 def normalize(list):
