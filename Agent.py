@@ -47,8 +47,10 @@ class Agent:
     # Make sure to return your answer *as a python list* at the end of Solve().
     # Returning your answer as a string may cause your program to crash.
     def Solve(self, problem):
-        figures = problem.figures
         self.problem_type = problem.problemType
+        if not problem.hasVerbal: # So far, no image processing implemented
+            return np.ones(6 if self.problem_type == '2x2' else 8)
+        figures = problem.figures
         problem_relationships = flatten(flatten(self.problem_type_relationships()))
         related_figures = self.collect_related_figures(figures, problem_relationships)
         transformation_rules = self.detect_rules(related_figures)
