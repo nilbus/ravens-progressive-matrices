@@ -112,7 +112,7 @@ class Agent:
         '''
         extract_objects = lambda figure: figure.objects
         (before, after) = map(extract_objects, relationship)
-        return [Rule.identity()] # TODO
+        return [Rule(before, after)]
 
     def guess_probabilities(self, transformation_rules_with_figure_keys):
         '''
