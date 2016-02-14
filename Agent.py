@@ -55,7 +55,6 @@ class Agent:
         related_figures = self.collect_related_figures(figures, problem_relationships)
         transformation_rules = self.detect_rules(related_figures)
         answer_probabilities = self.guess_probabilities(transformation_rules)
-        print answer_probabilities
         return answer_probabilities
 
     def problem_type_relationships(self):
@@ -124,7 +123,7 @@ class Agent:
             [self.rule_group_answer_correlations(rule_group, transformation_rules) \
                     for rule_group in self.problem_type_relationships()]
         answer_relationship_scores = self.combine_rule_group_answer_scores(rule_group_answer_correlation_scores)
-        return normalize(answer_relationship_scores)
+        return normalize(self.boost(answer_relationship_scores))
 
     def rekey_figure_keys_as_names(self, dict_with_figure_tuple_keys):
         '''
@@ -169,6 +168,22 @@ class Agent:
         @return a list of combined scores for each answer
         '''
         return np.sum(rule_group_answer_correlations, axis=0)
+
+    def boost(self, scores):
+        method = 'max'
+        scores = np.array(scores)
+        if method == 'none':
+            result = scores
+        elif method == 'square':
+            result = scores ** 2
+        elif method == 'cube':
+            result = scores ** 3
+        elif method == 'max':
+            max_value = scores.max()
+            result = np.where(scores == max_value, np.ones(scores.shape), np.zeros(scores.shape)).flatten()
+        else:
+            raise ValueError('no valid boost method selected')
+        return tuple(result)
 
 def normalize(list):
     return np.array(list) / sum(list)
