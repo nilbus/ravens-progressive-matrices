@@ -40,7 +40,7 @@ def main():
     setResults=open("SetResults.csv","w")       # Set-level summaries will be written to SetResults.csv.
     results.write("Problem,Correct Confidence,Time\n")
     setResults.write("Set,Sum Correct Confidence\n")
-    for set in sets:
+    for set in [sets[0]]:
         sum_correct_comfidence = 0
         for problem in set.problems:   # Your agent will solve one problem at a time.
             try:
