@@ -135,6 +135,8 @@ class Agent:
 
     def rule_group_answer_correlations(self, rule_group, transformation_rules):
         '''
+        @param rule_group triply nested tuples in the same structure as documented in
+            self.problem_type_relationships().
         @return a list with one entry per rule group, where each entry is a list
         containing correlation scores for each answer.
         '''
@@ -142,23 +144,22 @@ class Agent:
         answer_sequence_names = rule_group[1]
         given_sequence_rules  = [transformation_rules[sequence] for sequence in given_sequence_names]
         answer_sequence_rules = [transformation_rules[sequence] for sequence in answer_sequence_names]
-        answer_correlations = [self.score_sequence_correlation(given_sequence_rules, answer_sequence_rules) \
-                for answer_sequence_rule in answer_sequence_rules]
+        answer_correlations = \
+                [self.score_sequence_correlation(given_sequence_rules, answer_sequence_rule_alts) \
+                 for answer_sequence_rule_alts in answer_sequence_rules]
         return answer_correlations
 
-    def score_sequence_correlation(self, given_rules, proposed_answer_rules):
+    def score_sequence_correlation(self, given_rules, proposed_answer_rule_alts):
         '''
-        @param given_rules list (of size n ??) of lists of alternate # rules
-        @param proposed_answer_rules list (of size n answers) of lists of alternate # rules
-        @return a correlation score for the given_sequence_rules with the proposed_answer_rules
+        @param given_rules list (of size n givens in the sequence [1 for a 2x2]]) of lists of alternate rules
+        @param proposed_answer_rule_alts a list of alternate rules for the proposed answer under test
+        @return a correlation score for each answer in the proposed_answer_rules with the given_sequence_rules
         '''
-        # TODO: Multiple alternate rules come in, and this always chooses the first. Try different combinations.
+        # TODO: Multiple alternate rules come in for the given list, and this always chooses the first. Try different combinations.
         first = lambda x: x[0]
-        given_rules           = map(first, given_rules)
-        proposed_answer_rules = map(first, proposed_answer_rules)
-        alternate_rule_scores = [proposed_answer_rules[alt_n].similarity_to(given_rules[0]) for alt_n in range(len(proposed_answer_rules))]
-        return max(alternate_rule_scores)
-
+        given_rules = map(first, given_rules)
+        rule_alternate_scores = [proposed_answer_rule_alts[alt_n].similarity_to(given_rules[0]) for alt_n in range(len(proposed_answer_rule_alts))]
+        return max(rule_alternate_scores)
 
     def combine_rule_group_answer_scores(self, rule_group_answer_correlations):
         '''

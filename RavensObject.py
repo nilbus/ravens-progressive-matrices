@@ -27,3 +27,5 @@ class RavensObject:
         # attribute pairs "shape:square", "size:large", and "filled:yes".
         self.attributes={}
 
+    def __repr__(self):
+        return "<RavensObject name='%s', attributes=%s" % (self.name, self.attributes)
