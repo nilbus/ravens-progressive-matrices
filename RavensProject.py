@@ -41,6 +41,7 @@ def main():
     results.write("Problem,Correct Confidence,Time\n")
     setResults.write("Set,Sum Correct Confidence\n")
     for set in [sets[0]]:
+        set_start = time.time()
         sum_correct_comfidence = 0
         for problem in set.problems:   # Your agent will solve one problem at a time.
             try:
@@ -72,6 +73,9 @@ def main():
                results.write("%s\n" % result)
         setResult=set.name + "," + str(sum_correct_comfidence)
         setResults.write("%s\n" % setResult)
+        set_end = time.time()
+        timeUsed = (set_end - set_start)*1000
+        print "Total set time (ms): %f" % timeUsed
     results.close()
     setResults.close()
 
