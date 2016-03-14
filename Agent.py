@@ -79,7 +79,15 @@ class Agent:
                 )
             )
         else:
-            raise ValueError('Unimplemented problem type: %s' % self.problem_type)
+            return (
+                (
+                    (('A','B','C'),('D','E','F')),
+                    (('G','H','1'),('G','H','2'),('G','H','3'),('G','H','4'),('G','H','5'),('G','H','6'))
+                ), (
+                    (('A','D','G'),('B','E','H')),
+                    (('C','F','1'),('C','F','2'),('C','F','3'),('C','F','4'),('C','F','5'),('C','F','6'))
+                )
+            )
 
     def collect_related_figures(self, figures, problem_relationships):
         '''
