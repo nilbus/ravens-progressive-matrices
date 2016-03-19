@@ -39,7 +39,7 @@ def main():
                                                 # Note that each run of the program will overwrite the previous results.
                                                 # Do not write anything else to ProblemResults.txt during execution of the program.
     setResults=open("SetResults.csv","w")       # Set-level summaries will be written to SetResults.csv.
-    results.write("Problem,Correct Confidence,Time\n")
+    results.write("Problem,Correct Confidence,Time (ms)\n")
     setResults.write("Set,Sum Correct Confidence\n")
     for set in sets:
         set_start = time.time()
