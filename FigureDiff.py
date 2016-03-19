@@ -76,7 +76,7 @@ class FigureDiff:
         Go through the smallest set of objects, and pair each with best matches from the
         other set. If the other set is larger, its worst-matching objects will remain
         unpaired.
-        @return a list of pair tuples, with a NoObject instance replacing any nonexistent object
+        @return a list of pair tuples, with a NoObject reference replacing any nonexistent object
         '''
         pairs = []
         smaller_set = set_a if len(set_a) <= len(set_b) else set_b
