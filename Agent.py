@@ -109,18 +109,12 @@ class Agent:
         return dict(zip(related_figures, relationships_rules))
 
     def detect_relationship_rules(self, relationship, rule_count_limit=1):
-        if len(relationship) == 2:
-            return self.possible_binary_transformations(relationship, rule_count_limit)
-        else:
-            raise ValueError('Relationships of size != 2 are unimplemented')
-
-    def possible_binary_transformations(self, relationship, rule_count_limit=1):
         '''
         @return a list of Rule objects, no longer than rule_count_limit
         '''
         extract_objects = lambda figure: figure.objects
-        (before, after) = map(extract_objects, relationship)
-        return [Rule((before, after))]
+        figure_sequence = map(extract_objects, relationship)
+        return [Rule(figure_sequence)]
 
     def guess_probabilities(self, transformation_rules_with_figure_keys):
         '''
