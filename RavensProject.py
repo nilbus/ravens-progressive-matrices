@@ -12,6 +12,7 @@ from ProblemSet import ProblemSet
 import numpy as np
 import traceback
 import time
+import Debug
 
 # The main driver file for Project2. You may edit this file to change which
 # problems your Agent addresses while debugging and designing, but you should
@@ -46,6 +47,7 @@ def main():
         for problem in set.problems:   # Your agent will solve one problem at a time.
             try:
                 start = time.time()
+                Debug.problem_name = problem.name
                 problem.setAnswerReceived(agent.Solve(problem))     # The problem will be passed to your agent as a RavensProblem object as a parameter to the Solve method
                                                                     # Your agent should return its answer at the conclusion of the execution of Solve.
                                                                     # Note that if your agent makes use of RavensProblem.check to check its answer, the answer passed to check() will be used.
