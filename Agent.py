@@ -16,9 +16,6 @@ import re
 from FigureObjectSet import FigureObjectSet
 from Rule import Rule
 
-import Debug
-import pdb
-
 class Agent:
     # The default constructor for your Agent. Make sure to execute any
     # processing necessary before your Agent starts solving problems here.
