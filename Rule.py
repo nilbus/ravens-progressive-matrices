@@ -21,6 +21,6 @@ class Rule:
         if len(items) == 2:
             return ((items[0], items[1]),)
         elif len(items) == 3:
-            return ((items[0], items[1]),)
+            return ((items[0], items[1]),(items[1], items[2]))
         else:
             raise ValueError("Adjacent pairing unimplemented for list size %d" % (items.size,))
