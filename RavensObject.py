@@ -28,4 +28,4 @@ class RavensObject:
         self.attributes={}
 
     def __repr__(self):
-        return "<RavensObject name='%s', attributes=%s" % (self.name, self.attributes)
+        return "<RavensObject name='%s', attributes=%s>" % (self.name, self.attributes)
