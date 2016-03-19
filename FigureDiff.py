@@ -5,7 +5,7 @@ class FigureDiff:
     def __init__(self, before, after):
         self.before = before
         self.after = after
-        paired_objects = self._pair_ravens_objects(before.values(), after.values())
+        paired_objects = self._pair_ravens_objects(before.objects(), after.objects())
         self.diff = self._diff(paired_objects)
 
     def __repr__(self):

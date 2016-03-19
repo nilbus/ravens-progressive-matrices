@@ -13,6 +13,7 @@
 import numpy as np
 import re
 
+from FigureObjectSet import FigureObjectSet
 from Rule import Rule
 
 class Agent:
@@ -112,7 +113,7 @@ class Agent:
         '''
         @return a list of Rule objects, no longer than rule_count_limit
         '''
-        extract_objects = lambda figure: figure.objects
+        extract_objects = lambda figure: FigureObjectSet(figure.objects)
         figure_sequence = map(extract_objects, relationship)
         return [Rule(figure_sequence)]
 
