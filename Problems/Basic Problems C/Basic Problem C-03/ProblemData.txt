@@ -299,7 +299,7 @@ H
 		size:very small
 		fill:yes
 		above:27,28,29,30,31,32,33,34
-		left-of:28,29,32
+		left-of:27,28,31
 	27
 		shape:square
 		size:very small
@@ -322,7 +322,7 @@ H
 		size:very small
 		fill:yes
 		above:31,33,34
-		left-of:28,29,32
+		left-of:27,28,31
 	31
 		shape:square
 		size:very small
@@ -345,7 +345,7 @@ H
 		shape:square
 		size:very small
 		fill:yes
-		left-of:28,29,32
+		left-of:27,28,31
 7
 	35
 		shape:diamond
