@@ -7,6 +7,7 @@ class FigureDiff:
         self.after = after
         paired_objects = self._pair_ravens_objects(before.objects(), after.objects())
         self.diff = self._diff(paired_objects)
+        self.diff.update(self._metadata_diff(before, after))
 
     def __repr__(self):
         return "<FigureDiff %s>" % (self.diff,)
@@ -103,7 +104,9 @@ class FigureDiff:
         attr_a, attr_b = obj_a.attributes, copy(obj_b.attributes)
         score = 0
         for attr, value in attr_a.iteritems():
-            if attr == 'shape':
+            if attr == 'Meta':
+                weight = 100
+            elif attr == 'shape':
                 weight = 10
             elif attr == 'size':
                 weight = 8
@@ -130,12 +133,24 @@ class FigureDiff:
             diff[before] = DictDiffer(before.attributes, after.attributes)
         return diff
 
+    def _metadata_diff(self, before, after):
+        object_count_change = len(after) - len(before)
+        object_count_percent_change = round(object_count_change / (len(before) + .00001), 3)
+        meta_key = 'object_count_percent_change'
+        return {MetadataObject: DictDiffer({meta_key: None}, {meta_key: object_count_percent_change})}
+
 class _NoObject:
     def __init__(self):
         self.name = None
         self.attributes = {}
 
+class _MetadataObject:
+    def __init__(self):
+        self.name = None
+        self.attributes = {'Meta': True}
+
 NoObject = _NoObject()
+MetadataObject = _MetadataObject()
 
 # DictDiffer adapted from hughdbrown's post at http://stackoverflow.com/a/1165552/87298
 class DictDiffer(object):

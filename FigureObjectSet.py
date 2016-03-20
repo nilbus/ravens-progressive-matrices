@@ -8,6 +8,9 @@ class FigureObjectSet:
     def __getitem__(self, key):
         return self.objects_dict[key]
 
+    def __len__(self):
+        return len(self.objects_dict)
+
     def get(self, key, default):
         return self.objects_dict.get(key, default)
 
